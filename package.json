@@ -9,9 +9,6 @@
     "name": "Norylord",
     "url": "https://norylord.netlify.app"
   },
-  "engines": {
-    "node": ">=20.2.0"
-  },
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build"
