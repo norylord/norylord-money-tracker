@@ -23,6 +23,7 @@
       <div class="add-payment-modal__inputs-chips">
         <ui-chip
           v-for="paymentType of userStore.paymentsType"
+          :key="paymentType.id"
           :color="paymentType.color"
           :is-active="paymentType.id === newPayment.selectedPayment"
           :text="paymentType.title"

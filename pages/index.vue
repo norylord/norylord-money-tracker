@@ -4,7 +4,12 @@
       <h1 class="calendar__header-month">
         {{ currentMonthName }} <span class="calendar__header-year">{{ userStore.selectedYear }}</span>
       </h1>
-      <p>Траты в текущем месяце: {{ monthPaymentsSum }}</p>
+      <p>
+        Траты в текущем месяце: {{ monthPaymentsSum.toLocaleString("ru", {
+          style: "currency",
+          currency: "rub",
+        }) }}
+      </p>
       <div class="calendar__header-actions">
         <ui-button
           :icon="darkMode ? 'sun' : 'moon'"
