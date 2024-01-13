@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Open Sans, sans-serif;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--text-color);
+  transition: .2s ease-in-out all;
+  height: 100%;
+  width: 100%;
+}
+
+.wrapper {
+  height: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+#__nuxt {
+  height: 100%;
+}
+
+:root {
+  --background: #121212;
+  --background-light: #323232;
+  --text-color: #ffffff;
+  --primary: #424242;
+  --primary-light: #484848;
+  --primary-dark: #363636;
+  --ui-color: #5051f9;
+  --input-bg: #424242;
+  --ui-labels: #fff;
+}
