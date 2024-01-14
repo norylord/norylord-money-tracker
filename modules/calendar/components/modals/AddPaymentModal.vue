@@ -1,22 +1,31 @@
 <template>
   <div class="add-payment-modal">
     <h4>Список платежей:</h4>
-    <ul class="add-payment-modal__payments">
-      <li
+    <div class="add-payment-modal__payments">
+      <p
         v-for="payment of userStore.currentDay.payments"
         :key="payment.id"
-        @click="removePayment(payment.id)"
+        :style="{color: getPaymentColor(payment.type.id)}"
+        class="add-payment-modal__payment"
       >
-        <span :style="{color: getPaymentColor(payment.type.id)}">Тип платежа: {{ getPaymentTitle(payment.type.id)
+        <span>Тип платежа: {{ getPaymentTitle(payment.type.id)
         }} </span>|
-        Сумма:
-        {{ Number(payment.sum).toLocaleString("ru", {
+        <span>Сумма: {{ Number(payment.sum).toLocaleString("ru", {
           style: "currency",
           currency: "rub",
-        })
-        }}
-      </li>
-    </ul>
+        }) }} </span> |
+        <span>Комментарий: {{ payment.comment }} </span>
+        <ui-button
+          class="add-payment-modal__payment-action"
+          icon="cross"
+          @click="removePayment(payment.id)"
+        />
+        <ui-button
+          class="add-payment-modal__payment-action"
+          icon="pencil"
+        />
+      </p>
+    </div>
 
     <h4>Добавить платеж</h4>
     <div class="add-payment-modal__inputs">
@@ -34,6 +43,11 @@
         v-model="newPayment.sum"
         label="Введите сумму"
         type="number"
+      />
+      <ui-input
+        v-model="newPayment.comment"
+        label="Введите комментарий"
+        type="text"
       />
       <ui-button
         class="add-payment-modal__submit"
@@ -58,13 +72,14 @@ import UiChip from "~/core/components/ui/ui-chip.vue";
 
 const newPayment = reactive({
   sum: null,
-  selectedPayment: null
+  selectedPayment: null,
+  comment: null
 })
 
 const addPayment = () => {
   if (!newPayment.selectedPayment || !newPayment.sum) return;
   const getPayment = userStore.paymentsType.filter(item => item.id == newPayment.selectedPayment)[0]
-  const payment = new Payment(newPayment.sum, getPayment)
+  const payment = new Payment(newPayment.sum, newPayment.comment, getPayment)
   userStore.currentDay.payments.push(payment)
 }
 const removePayment = (paymentId: any) => {
@@ -94,7 +109,32 @@ const getPaymentColor = (paymentTypeId: number) => {
   gap: 24px;
 
   &__payments {
-    margin-left: 32px;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  &__payment {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    align-items: center;
+    gap: 4px;
+
+    &-action {
+      opacity: 0;
+      padding: 0;
+      width: 0;
+      height: 30px;
+      transition: all .2s linear;
+    }
+
+    &:hover {
+      .add-payment-modal__payment-action {
+        opacity: 1;
+        width: auto;
+        padding: 6px 16px;
+      }
+    }
   }
 
   &__inputs {

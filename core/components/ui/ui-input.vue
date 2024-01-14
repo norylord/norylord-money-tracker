@@ -79,11 +79,13 @@ const onFocusOut = () => {
     z-index: 1;
     transition: all 0.1s linear;
     cursor: text;
+    font-size: 16px;
     transition-delay: 100ms;
 
 
     &--active {
-      top: 5%;
+      font-size: 10px;
+      top: 0;
       left: 6px;
     }
   }

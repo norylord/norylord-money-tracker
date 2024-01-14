@@ -27,7 +27,7 @@ const getColor = computed(() => {
   border: 1px solid v-bind(getColor);
   text: v-bind(getColor);
   color: v-bind(getColor);
-  opacity: 0.5;
+  opacity: 0.8;
   display: flex;
   justify-content: center;
   align-items: center;
