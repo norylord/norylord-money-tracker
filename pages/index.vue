@@ -1,5 +1,9 @@
 <template>
   <div class="calendar">
+    <div
+      class="calendar-nav calendar-nav--left"
+      @click="userStore.selectedMonth--"
+    />
     <div class="calendar__header">
       <h1 class="calendar__header-month">
         {{ currentMonthName }} <span class="calendar__header-year">{{ userStore.selectedYear }}</span>
@@ -32,6 +36,10 @@
       :selected-year=" userStore.selectedYear"
     />
     <CustomModal title="Добавление трат" />
+    <div
+      class="calendar-nav calendar-nav--right"
+      @click="userStore.selectedMonth++"
+    />
   </div>
 </template>
 
@@ -129,6 +137,29 @@ const monthPaymentsSum = computed(() => {
       display: flex;
       align-items: center;
       background: $text-primary;
+    }
+  }
+
+  &-nav {
+    position: absolute;
+    height: 100%;
+    width: 5vw;
+    opacity: 0;
+    transition: all .3s linear;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &--left {
+      left: 0;
+      background: linear-gradient(270deg, rgba(0, 0, 0, 0), var(--primary));
+    }
+
+    &--right {
+      right: 0;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0), var(--primary));
     }
   }
 }
