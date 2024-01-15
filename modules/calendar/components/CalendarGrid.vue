@@ -1,5 +1,8 @@
 <template>
-  <div class="calendar-grid">
+  <div
+    id="calendar-grid"
+    class="calendar-grid"
+  >
     <div
       v-for="weekday of weekDays"
       :key="weekday"
@@ -117,6 +120,7 @@ const currentMonthDays = computed(() => {
   gap: 4px;
   background: transparent;
   border-radius: 16px;
+
 
   &__weekday {
     display: flex;

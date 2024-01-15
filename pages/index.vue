@@ -66,6 +66,10 @@ watch(() => userStore.selectedMonth, () => {
   }
   const date = new Date(userStore.selectedYear, userStore.selectedMonth)
   currentMonthName.value = date.toLocaleString('default', {month: "long"})
+  if (process.client) {
+    document.getElementById('calendar-grid').classList.add('blink')
+    setTimeout(() => document.getElementById('calendar-grid').classList.remove('blink'), 600)
+  }
 })
 
 const {toggleTheme, darkMode} = useTheme()
@@ -147,6 +151,7 @@ const monthPaymentsSum = computed(() => {
     opacity: 0;
     transition: all .3s linear;
     cursor: pointer;
+    filter: blur(30px);
 
     &:hover {
       opacity: 1;
@@ -161,6 +166,21 @@ const monthPaymentsSum = computed(() => {
       right: 0;
       background: linear-gradient(90deg, rgba(0, 0, 0, 0), var(--primary));
     }
+  }
+}
+
+.blink {
+  animation: blink linear .6s
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
   }
 }
 </style>

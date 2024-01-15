@@ -113,6 +113,6 @@ const getDayPaymentsColors = computed(() => {
       gap: 4px;
     }
   }
-
 }
+
 </style>
