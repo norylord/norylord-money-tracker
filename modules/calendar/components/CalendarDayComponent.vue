@@ -25,15 +25,16 @@
 </template>
 
 <script lang="ts" setup>
-import type CalendarDay from "~/modules/calendar/model/CalendarDay";
 import {useModal} from "~/modules/modal/composables/useModal";
 import {useUserStore} from "~/modules/user/store/userStore";
-import Payment from "~/modules/payment/model/Payment";
+import {DayService} from "~/modules/calendar/services/dayService";
+import type {TCalendarDay} from "~/modules/calendar/entity/calendar";
 
 const userStore = useUserStore()
+const dayService = new DayService(userStore)
 
 interface IProps {
-  day: CalendarDay
+  day: TCalendarDay
 }
 
 const props = defineProps<IProps>()
@@ -42,7 +43,7 @@ const {openAddPaymentModal} = useModal()
 
 const handleClickOnDay = () => {
   if (!props.day.isCurrentMonth) return
-  userStore.currentDay = props.day
+  dayService.setCurrentDay(props.day)
   openAddPaymentModal()
 }
 

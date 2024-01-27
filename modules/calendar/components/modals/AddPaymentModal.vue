@@ -3,7 +3,7 @@
     <h4>Список платежей:</h4>
     <div class="add-payment-modal__payments">
       <p
-        v-for="payment of userStore.currentDay.payments"
+        v-for="payment of paymentService.getCurrentDay().payments"
         :key="payment.id"
         :style="{color: getPaymentColor(payment.type.id)}"
         class="add-payment-modal__payment"
@@ -31,7 +31,7 @@
     <div class="add-payment-modal__inputs">
       <div class="add-payment-modal__inputs-chips">
         <ui-chip
-          v-for="paymentType of userStore.paymentsType"
+          v-for="paymentType of paymentService.getPaymentsType()"
           :key="paymentType.id"
           :color="paymentType.color"
           :is-active="paymentType.id === newPayment.selectedPayment"
@@ -63,11 +63,9 @@
 import UiInput from "~/core/components/ui/ui-input.vue";
 import UiButton from "~/core/components/ui/ui-button.vue";
 import Payment from "~/modules/payment/model/Payment";
-import PaymentType from "~/modules/payment/model/PaymentType";
-import UiSelect from "~/core/components/ui/ui-select.vue";
-import {useUserStore} from "~/modules/user/store/userStore";
-import payment from "~/modules/payment/model/Payment";
 import UiChip from "~/core/components/ui/ui-chip.vue";
+import {PaymentsService} from "~/modules/calendar/services/paymentsService";
+import {useUserStore} from "~/modules/user/store/userStore";
 
 
 const newPayment = reactive({
@@ -78,27 +76,21 @@ const newPayment = reactive({
 
 const addPayment = () => {
   if (!newPayment.selectedPayment || !newPayment.sum) return;
-  const getPayment = userStore.paymentsType.filter(item => item.id == newPayment.selectedPayment)[0]
+  const getPayment = paymentService.getPaymentsType().filter(item => item.id == newPayment.selectedPayment)[0]
   const payment = new Payment(newPayment.sum, newPayment.comment, getPayment)
-  userStore.currentDay.payments.push(payment)
+  paymentService.addPaymentToCurrentDay(payment)
 }
 const removePayment = (paymentId: any) => {
-  userStore.currentDay.payments = userStore.currentDay.payments.filter(item => item.id !== paymentId)
+  paymentService.removePaymentFromCurrentDay(paymentId)
 }
-
 const userStore = useUserStore()
-const avaliablePayments = computed(() => {
-  return userStore.paymentsType.map(payment => {
-    return {title: payment.title, value: payment.id}
-  })
-})
+const paymentService = new PaymentsService(userStore)
 
 const getPaymentTitle = (paymentTypeId: number) => {
-  return userStore.paymentsType.filter(item => item.id === paymentTypeId)[0].title
+  return paymentService.getPayment(paymentTypeId).title
 }
 const getPaymentColor = (paymentTypeId: number) => {
-  console.log(paymentTypeId)
-  return userStore.paymentsType.filter(item => item.id === paymentTypeId)[0].color
+  return paymentService.getPayment(paymentTypeId).color
 }
 </script>
 

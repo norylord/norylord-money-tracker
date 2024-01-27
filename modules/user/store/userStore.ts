@@ -1,27 +1,29 @@
 import {defineStore} from 'pinia'
+import type {TPaymentType} from "~/modules/payment/entity/payment";
+import type {TCalendarDay, TCalendarGrid} from "~/modules/calendar/entity/calendar";
 
-import type PaymentType from "~/modules/payment/model/PaymentType";
-import type CalendarGrid from "~/modules/calendar/model/CalendarGrid";
-import type CalendarDay from "~/modules/calendar/model/CalendarDay";
-
-interface IStore {
-    paymentsType: PaymentType[],
-    months: CalendarGrid[]
-    currentDay: CalendarDay
+export interface IUserStore {
+    paymentsType: TPaymentType[],
+    months: TCalendarGrid[]
+    currentDay: TCalendarDay
     selectedYear: number,
     selectedMonth: number
 }
 
 export const useUserStore = defineStore({
     id: 'feedsCreateModal',
-    state: (): IStore => ({
+    state: (): IUserStore => ({
         paymentsType: [],
         months: [],
         currentDay: {},
         selectedYear: new Date().getFullYear(),
         selectedMonth: new Date().getMonth()
     }),
-    actions: {},
+    actions: {
+        addMonth(newMonth: TCalendarGrid) {
+            this.months.push(newMonth)
+        },
+    },
     getters: {
         getCurrentMonth(state) {
             return state.months.filter(month => month.id === state.selectedMonth + '-' + state.selectedYear)[0]
